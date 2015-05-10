@@ -1,0 +1,7 @@
+parameters:
+#    jakub_symfony.example.class: Jakub\SymfonyBundle\Example
+
+services:
+#    jakub_symfony.example:
+#        class: %jakub_symfony.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,6 @@
+_jakub_symfony_homepage:
+    path:     /
+    defaults: { _controller: JakubSymfonyBundle:Default:index, pozdrav: "zdravim" }
+_ahoj:
+    path:     /ahoj/{pozdrav}
+    defaults: { _controller: JakubSymfonyBundle:Default:index, pozdrav: "zdravim" }

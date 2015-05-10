@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ pozdrav }}{% endblock %}
+
+{% block header %}
+    {% include 'views/menu.html' %}
+{% endblock %}
+
+{% block body %}<br><br><br>
+    {% set foo = {9:'čšľčš',zwei:'dva','drei':'tri'} %}
+    {{ foo.9 }}<br>{{ foo.zwei }}<br>{{ foo.drei }}<br>
+    {% for article in articles %}
+
+        {% if article.name|length > 2 %}
+        <b>nazov</b><br>
+        {{ article.name }}
+        <br><b>popis</b><br>
+        {{ article.description }}<br><br><br>
+        {% endif %}
+    {% endfor %}
+
+    {% filter upper %}
+    {{ foo|join(', ')|convert_encoding('UTF-8', 'iso-2022-jp') }} {# z iso do UTF-8 #}
+    {% endfilter %}
+    <br><br><br>
+    <div style="background:orange">
+    {% block footer %}
+        {{ '{{'  }}
+    {% for i in range(0,9) %}
+        {{ i }},
+    {% endfor %}
+        {{ '}}'  }}<br><br>
+    {{ "now"|date('d.m.Y H:i:s',timezone="Europe/Paris") }}
+        {% endblock %}
+    </div>
+    {% set meno = "Jakub " %}
+    {% set priezvisko = "Kalerab" %}
+    {% set admin = false %}
+    {{ (meno ~ priezvisko)|upper }}<br /><br />
+    {% if (not admin and priezvisko|length>2) and meno starts with "j"|upper %}
+    {{ meno ~ priezvisko }}
+    {% endif %}
+    {% if 'kau' in meno %}
+        aloha
+    {% elseif 'ku' in meno %}
+        dajne
+    {% endif %}
+    {% set eine = 9 %}
+    {% if eine is not odd %}
+    {{ "devat" }}
+    {% else %}
+        {{ "devat neni pekne" }}
+    {% endif %}
+    {% spaceless %}
+        <div>
+            <strong>foo bar</strong>
+        </div>
+    {% endspaceless %}<br /><br />
+
+
+
+
+    {# filtre #}
+    {% set nummer = -96 %}
+    {{ nummer ~ " => " }}{{ nummer|abs }}
+    {% set pole = ['a', 'b', 'c', 'd', 'e', 'f', 'g'] %}
+    <table>
+    {% for row in pole|batch(3,"missing") %}
+        <tr>
+            {% for item in row %}
+                <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+        </table>
+
+
+    {{ 'ach TIE prazdninY.'|capitalize }}<br />
+    {{ "2015-02-12 15:03:46"|date("d.m.Y H:i") }}<br />
+    {{ "now"|date_modify("+1 month")|date("d.m.Y H:i:s", false) }}<br />
+    {#{% set var = "davad" %}#}
+    {{ var|default("zidan") }}<br />
+    {{ "<i>aaaaaaaaaaa</i>"|e }}{{ "<i>aaaaaaaaaaa</i>" }}<br />
+
+    {{ "#565"|first ~ 'deved'|first ~ {a: 1, b: 2, c: 3, d: 5}|first }}<br />
+    {{ "#565"|last ~ 'deved'|last ~ {a: 1, b: 2, c: 3, d: 5}|last }}<br />
+
+    {% set foo = "hovno" %}
+    {{ "I like %s and %s."|format(foo, "bar") }}<br />
+    {{ "I like :D and :(."|replace({':D':'usmev',':(':'smutok'}) }}<br />
+
+    {{ [1,2,3]|join('/') }}<br />
+    {{ "ahoj/"|json_encode() }}<br />
+    {% set pole2 = {"a":"jeden","b":"dva"} %}
+    {% for key in pole2|keys %}
+        {{ key }}<br />
+    {% endfor %}<br />
+
+    {{ "sracka"|length }}<br />
+    {{ "SrACkA"|lower }}<br />
+
+    {% set values = [1, 2] %}
+
+    {% set values = values|merge(['apple', 'orange']) %}
+
+    {{ values|join(" ") }}<br />
+    {{ 21531312.4221|number_format(2,","," ") }}<br /><br />
+    {#
+        number_format == number_format(0, '.', ',')
+        0 decimal places.
+        . as the decimal point.
+        , as the thousands separator.
+    #}
+    {% for kluc, hodnota in {1:'a',2:'b',3:'c',4:'d'} %}
+        {{ kluc ~ " : " ~ hodnota ~ ", " }}
+    {% endfor %}<br />
+    {% for kluc, hodnota in {1:'a',2:'b',3:'c',4:'d'}|reverse(true) %}
+        {{ kluc ~ " : " ~ hodnota ~ ", " }}
+    {% endfor %}<br />
+
+    {{ 3.14159|round }}<br />
+    {{ 3.14159|round(2,"floor") }}<br />
+    {{ 3.14159|round(2,"ceil") }}<br />
+
+    {% for i in [1,2,3,4,5]|slice(1,2) %}
+        {{ i }}
+    {% endfor %}<br />
+    {{ "123456"[2:] }}<br />
+    {{ "123456"[:2] }}<br />
+    {{ "123456"[1:2] }}<br />
+
+    {{ [5,2,9,5,4,7,3,1,9,8,1]|sort|join(' ') }}<br />
+    {% set next = "one,two,three,four,five"|split(",") %}
+    {{ next|join(".....") }}<br />
+    {% set next = "one,two,three,four,five"|split(",",3) %}
+    {{ next|join(".....") }}<br />
+    {% set next = "123456"|split("",1) %}
+    {{ next|join(".....") }}<br />
+    {% set next = "aabbccdd"|split("",2) %}
+    {{ next|join(".....") }}<br />
+    {{ "<i>aaaaaaaaaaaaaa</i>"|striptags }}<br />
+    {{ "moje prve auto"|title }}<br />
+
+    {{ '  I like Twig.  '|trim }}
+
+    {# outputs 'I like Twig.' #}
+
+    {{ '  I like Twig.'|trim('.') }}
+
+    {# outputs '  I like Twig' #}
+    {{ "haloooo"|upper }}<br />
+    {{ "path-seg*ment"|url_encode }}<br />
+    {# outputs "path-seg%2Ament" #}
+
+    {{ "string with spaces"|url_encode }}<br />
+    {# outputs "string%20with%20spaces" #}
+
+    {{ {'param': 'value', 'foo': 'bar'}|url_encode }}<br />
+    {# outputs "param=value&foo=bar" #}
+
+
+
+    {# /filtre #}
+{% endblock %}

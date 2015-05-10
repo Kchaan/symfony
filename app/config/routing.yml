@@ -1,0 +1,3 @@
+jakub_symfony:
+    resource: "@JakubSymfonyBundle/Resources/config/routing.yml"
+    prefix:   /
